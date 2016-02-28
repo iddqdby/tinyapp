@@ -1,0 +1,30 @@
+{
+	"name" : "iddqdby/tinyapp",
+	"description" : "Microframework for small command line applications.",
+	"type" : "library",
+	"homepage" : "https://github.com/iddqdby/tinyapp",
+	"license" : "MIT",
+	"support" : {
+		"source" : "https://github.com/iddqdby/tinyapp",
+		"issues" : "https://github.com/iddqdby/tinyapp/issues"
+	},
+	"keywords" : [
+		"command line",
+		"CLI",
+		"framework"
+	],
+	"authors" : [
+		{
+			"name" : "Sergey Protasevich",
+			"email" : "sergey.p@gmx.com"
+		}
+	],
+	"require" : {
+		"php" : ">=5.4"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"TinyApp\\" : "src"
+		}
+	}
+}
