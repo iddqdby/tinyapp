@@ -14,13 +14,16 @@
 		"framework"
 	],
 	"authors" : [
-		{
+	 	{
 			"name" : "Sergey Protasevich",
 			"email" : "sergey.p@gmx.com"
 		}
 	],
 	"require" : {
-		"php" : ">=5.4"
+		"php" : "^5.4 || ^7.0"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "~4.8.23-stable"
 	},
 	"autoload" : {
 		"psr-4" : {
