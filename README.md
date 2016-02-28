@@ -1,18 +1,24 @@
 # Microframework for small command line applications
 
-## How to use
+## Description
+
+### Install the library
 
 To install the library, run `composer require iddqdby/tinyapp`.
+
+### Create an application
 
 To create the application:
 * Extend abstract class `TinyApp\App`
 * Implement method `init()` to initialize your application
 * Implement method `get($key)` to get services and other stuff from any dependency injection container you like
 * Create a controller class that extends one of abstract classes in `TinyApp\Controller` namespace
-* Create action methods in a form "*something*Action"
+* Create public action methods like "*something*Action"
 * Define your controller in the dependency injection container under `App::CONTROLLER_PREFIX.App::CONTROLLER_MAIN` key
 * Use protected method `get($key)` inside your actions to get services and other stuff from your dependency injection container
 * Instantiate your app and call method `$app->run($action, $arguments)` to invoke an action once, or `$app->loop()` to run your application in interactive mode
+
+### Example
 
 Example of a script to run from CLI:
 
@@ -29,9 +35,9 @@ $result = $app->run($action, $arguments);
 printf("%s\n", $result);
 ```
 
-The `$action` it the example above must match the regular expression `"/((?<CONTROLLER>[\w\d\_]+):)?(?<ACTION>[\w\d\_]+)/i"`.
+The `$action` in the example above must match the regular expression `"/((?<CONTROLLER>[\w\d\_]+):)?(?<ACTION>[\w\d\_]+)/i"`.
 
-Prefix `App::CONTROLLER_PREFIX` will be prepended to *CONTROLLER*. *CONTROLLER* will be set to `App::CONTROLLER_MAIN` if is omitted.
+Prefix `App::CONTROLLER_PREFIX` will be prepended to *CONTROLLER*. *CONTROLLER* will be set to `App::CONTROLLER_MAIN` if it is omitted.
 
 Postfix `App::ACTION_POSTFIX` will be appended to *ACTION*.
 

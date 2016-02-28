@@ -26,6 +26,7 @@
 
 namespace TinyApp;
 
+use Throwable;
 use Exception;
 use BadMethodCallException;
 
@@ -73,10 +74,10 @@ abstract class App {
 
         if( !is_callable( $action ) ) {
             throw new BadMethodCallException(
-                    sprintf( 'Action "%s" of controller "%s" does not exist', $action_name, $controller_name ) );
+                    sprintf( 'Action "%s" of controller "%s" does not exist', $method_name, $controller_name ) );
         }
 
-        return call_user_func_array( $action_name, $arguments );
+        return call_user_func_array( $action, $arguments );
     }
 
 
@@ -98,7 +99,9 @@ abstract class App {
                         ? $result
                         : var_export( $result, true ) );
             } catch( Exception $ex ) {
-                $this->stderr( sprintf( "Unexpected exception:\n%s", $ex ) );
+                $this->handleException( $ex );
+            } catch( Throwable $ex ) { // for PHP >= 7.0
+                $this->handleException( $ex );
             }
         }
     }
@@ -110,7 +113,7 @@ abstract class App {
      * @param string $line the string
      */
     public function stdout( $line ) {
-        file_put_contents( 'php://stdout', $line."\n", FILE_APPEND );
+        $this->fileAppendLine( 'php://stdout', $line );
     }
 
 
@@ -120,7 +123,12 @@ abstract class App {
      * @param string $line the string
      */
     public function stderr( $line ) {
-        file_put_contents( 'php://stderr', $line."\n", FILE_APPEND );
+        $this->fileAppendLine( 'php://stderr', $line );
+    }
+
+
+    private function fileAppendLine( $file, $line ) {
+        file_put_contents( $file, $line."\n", FILE_APPEND );
     }
 
 
@@ -137,5 +145,10 @@ abstract class App {
      * Initialize the application.
      */
     protected abstract function init();
+
+
+    private function handleException( $ex ) {
+        $this->stderr( sprintf( "Unexpected exception:\n%s", $ex ) );
+    }
 
 }
