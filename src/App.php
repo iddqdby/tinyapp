@@ -46,6 +46,10 @@ abstract class App {
     const ACTION_POSTFIX = 'Action';
 
 
+    private $stdout = null;
+    private $stderr = null;
+
+
     /**
      * Create new instance of the application.
      */
@@ -113,7 +117,7 @@ abstract class App {
      * @param string $line the string
      */
     public function stdout( $line ) {
-        $this->fileAppendLine( 'php://stdout', $line );
+        $this->out( 'php://stdout', $line );
     }
 
 
@@ -123,12 +127,23 @@ abstract class App {
      * @param string $line the string
      */
     public function stderr( $line ) {
-        $this->fileAppendLine( 'php://stderr', $line );
+        $this->out( 'php://stderr', $line );
     }
 
 
-    private function fileAppendLine( $file, $line ) {
-        file_put_contents( $file, $line."\n", FILE_APPEND );
+    private function out( $stream, $line ) {
+        switch( $stream ) {
+            case 'php://stdout':
+                $handle = &$this->stdout;
+                break;
+            case 'php://stderr':
+                $handle = &$this->stderr;
+                break;
+        }
+        if( !$handle ) {
+            $handle = fopen( $stream, 'a' );
+        }
+        fwrite( $handle, $line."\n" );
     }
 
 
@@ -149,6 +164,16 @@ abstract class App {
 
     private function handleException( $ex ) {
         $this->stderr( sprintf( "Unexpected exception:\n%s", $ex ) );
+    }
+
+
+    public function __destruct() {
+        if( $this->stdout ) {
+            fclose( $this->stdout );
+        }
+        if( $this->stderr ) {
+            fclose( $this->stderr );
+        }
     }
 
 }
