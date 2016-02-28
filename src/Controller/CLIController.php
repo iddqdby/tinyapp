@@ -46,4 +46,24 @@ abstract class CLIController extends AbstractController {
         parent::__construct( $app );
     }
 
+
+    /**
+     * Send string to STDOUT.
+     *
+     * @param string $line the string
+     */
+    protected function stdout( $line ) {
+        $this->app->stdout( $line );
+    }
+
+
+    /**
+     * Send string to STDERR.
+     *
+     * @param string $line the string
+     */
+    protected function stderr( $line ) {
+        $this->app->stderr( $line );
+    }
+
 }
