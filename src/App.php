@@ -29,6 +29,7 @@ namespace TinyApp;
 use Throwable;
 use Exception;
 use BadMethodCallException;
+use TinyApp\Service\RenderingEngine\IRenderingEngine;
 
 
 /**
@@ -41,6 +42,9 @@ abstract class App {
 
     /** Name of the main (default) controller */
     const CONTROLLER_MAIN = 'main';
+
+    /** Key to register custom rendering engine */
+    const RENDERING_ENGINE_KEY = 'rendering_engine';
 
     /** Postfix for action methods of controllers */
     const ACTION_POSTFIX = 'Action';
@@ -71,7 +75,8 @@ abstract class App {
         preg_match( '/((?<CONTROLLER>[\w\d_]+):)?(?<ACTION>[\w\d_]+)/iu', $action_name, $matches );
 
         $controller_name = empty( $matches['CONTROLLER'] ) ? self::CONTROLLER_MAIN : $matches['CONTROLLER'];
-        $method_name = $matches['ACTION'].self::ACTION_POSTFIX;
+        $action_subname = $matches['ACTION'];
+        $method_name = $action_subname.self::ACTION_POSTFIX;
 
         $controller = $this->get( self::CONTROLLER_PREFIX.$controller_name );
         $action = [$controller, $method_name];
@@ -81,7 +86,23 @@ abstract class App {
                     sprintf( 'Action "%s" of controller "%s" does not exist', $method_name, $controller_name ) );
         }
 
-        return call_user_func_array( $action, $arguments );
+        $result = call_user_func_array( $action, $arguments );
+
+        $rendering_engine = $this->get( self::RENDERING_ENGINE_KEY );
+        $action_to_template_map = method_exists( $controller, 'defineTemplates' )
+            ? (array)$controller->defineTemplates()
+            : [];
+
+        if( !$rendering_engine instanceof IRenderingEngine
+            ||
+            !array_key_exists( $action_subname, $action_to_template_map )
+        ) {
+            return $result;
+        }
+
+        $template_name = strval( $action_to_template_map[ $action_subname ] );
+
+        return $rendering_engine->render( $result, $template_name );
     }
 
 

@@ -57,4 +57,21 @@ abstract class AbstractController {
         return $this->app->get( $key );
     }
 
+
+    /**
+     * Define templates for actions.
+     *
+     * Override this method to define templates for actions of the controller.
+     * Method must return associative array where keys are names of actions
+     * without "Action" postfix and values are names of templates without
+     * path to directory, prefix and postfix.
+     *
+     * @return array associative array of actions and templates
+     * @see TinyApp\Service\IRenderingEngine
+     * @see TinyApp\Service\AbstractRenderingEngine
+     * @see TinyApp\Service\PHPRenderingEngine
+     */
+    protected function defineTemplates() {}
+
+
 }

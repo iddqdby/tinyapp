@@ -41,7 +41,7 @@ Prefix `App::CONTROLLER_PREFIX` will be prepended to *CONTROLLER*. *CONTROLLER* 
 
 Postfix `App::ACTION_POSTFIX` will be appended to *ACTION*.
 
-The action of the controller will be invoked with passed arguments, and its result will be returned. The `\BadMethodCall` exception will be throwed if no controller is registered under the given key, or if there is no such action in the controller.
+The action of the controller will be invoked with passed arguments, and its result will be returned. The `\BadMethodCallException` exception will be thrown if no controller is registered under the given key, or if there is no such action in the controller.
 
 ## Requirements
 
