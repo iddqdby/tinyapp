@@ -71,7 +71,7 @@ abstract class AbstractController {
      * @see TinyApp\Service\AbstractRenderingEngine
      * @see TinyApp\Service\PHPRenderingEngine
      */
-    protected function defineTemplates() {}
+    public function defineTemplates() {}
 
 
 }
