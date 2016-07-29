@@ -32,16 +32,4 @@ use Exception as BaseException;
 /**
  * Base class for all exceptions.
  */
-class Exception extends BaseException {
-
-    /**
-     * Create instance of exception.
-     *
-     * @param string $message the message (optional)
-     * @param $previous previous exception (optional)
-     */
-    public function __construct( $message = null, $previous = null ) {
-        parent::__construct( $message, 500, $previous );
-    }
-
-}
+class Exception extends BaseException {}

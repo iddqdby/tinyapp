@@ -82,8 +82,8 @@ abstract class App {
         $action = [$controller, $method_name];
 
         if( !is_callable( $action ) ) {
-            throw new BadMethodCallException(
-                    sprintf( 'Action "%s" of controller "%s" does not exist', $method_name, $controller_name ) );
+            throw new BadMethodCallException( sprintf(
+                'Action "%s" of controller "%s" does not exist', $action_subname, $controller_name ) );
         }
 
         $result = call_user_func_array( $action, $arguments );
@@ -93,7 +93,8 @@ abstract class App {
             ? (array)$controller->defineTemplates()
             : [];
 
-        if( !$rendering_engine instanceof IRenderingEngine
+        if(
+            !$rendering_engine instanceof IRenderingEngine
             ||
             !array_key_exists( $action_subname, $action_to_template_map )
         ) {

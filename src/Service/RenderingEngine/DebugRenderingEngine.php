@@ -26,8 +26,6 @@
 
 namespace TinyApp\Service\RenderingEngine;
 
-use TinyApp\Exception\TemplateNotFoundException;
-
 
 /**
  * Rendering engine intended to be used for debugging purposes.
@@ -67,12 +65,12 @@ class DebugRenderingEngine implements IRenderingEngine {
                 ob_start();
                 var_dump( $data );
                 return ob_get_clean();
-            case 'tree':
-                return $this->tree( 'root', $data );
             case 'plain':
                 return strval( $data );
+            case 'tree':
+            default:
+                return $this->tree( 'root', $data );
         }
-        throw new TemplateNotFoundException( sprintf( 'Template %s is not valid. Valid values are: var_export, var_dump, tree, plain.', $template ) );
     }
 
 
@@ -83,12 +81,11 @@ class DebugRenderingEngine implements IRenderingEngine {
             $v_count = count( $value );
             $v_max = $v_count - 1;
             foreach( $value as $sub_key => $sub_value ) {
-                $is_last = $i === $v_max;
+                $is_last = $i++ === $v_max;
                 $indention = '  '.preg_replace( '/./u', ' ', $key.$v_count );
                 $prefix = $gap.$indention.' ';
                 $string .= PHP_EOL.$prefix.( $is_last ? '└' : '├' )
                         .$this->tree( $sub_key, $sub_value, $prefix.( $is_last ? ' ' : '│' ) );
-                $i++;
             }
         }
         return $string;
@@ -139,6 +136,8 @@ class DebugRenderingEngine implements IRenderingEngine {
 
     /**
      * This method does nothing. It is a stub.
+     *
+     * @return this
      */
     public function setTemplatePrefix( $prefix ) {
         return $this;
@@ -147,6 +146,8 @@ class DebugRenderingEngine implements IRenderingEngine {
 
     /**
      * This method does nothing. It is a stub.
+     *
+     * @return this
      */
     public function setTemplatePostfix( $postfix ) {
         return $this;
@@ -155,6 +156,8 @@ class DebugRenderingEngine implements IRenderingEngine {
 
     /**
      * This method does nothing. It is a stub.
+     *
+     * @return this
      */
     public function addTemplateDirectories( $dirs ) {
         return $this;
@@ -163,6 +166,8 @@ class DebugRenderingEngine implements IRenderingEngine {
 
     /**
      * This method does nothing. It is a stub.
+     *
+     * @return this
      */
     public function removeTemplateDirectories( $dirs ) {
         return $this;

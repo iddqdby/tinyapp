@@ -30,9 +30,7 @@ use TinyApp\Exception\TemplateNotFoundException;
 
 
 /**
- * Superclass for all built-in rendering engines.
- *
- * May be used to define custom ones.
+ * Superclass for rendering engines.
  */
 abstract class AbstractRenderingEngine implements IRenderingEngine {
 
@@ -71,7 +69,7 @@ abstract class AbstractRenderingEngine implements IRenderingEngine {
      */
     public function addTemplateDirectories( $dirs ) {
         if( is_array( $dirs ) ) {
-            $this->dirs = array_merge( self::toArrayOfUniqueStrings( $dirs ) );
+            $this->dirs = self::toArrayOfUniqueStrings( array_merge( $this->dirs, $dirs ) );
         } else {
             $dir = strval( $dirs );
             if( !in_array( $dir, $this->dirs ) ) {
