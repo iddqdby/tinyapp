@@ -1,5 +1,10 @@
 # Microframework for small command line applications
 
+[![Build Status](https://travis-ci.org/iddqdby/tinyapp.svg?branch=master)](https://travis-ci.org/iddqdby/tinyapp)
+[![Latest Stable Version](https://poser.pugx.org/iddqdby/tinyapp/v/stable)](https://packagist.org/packages/iddqdby/tinyapp)
+[![Total Downloads](https://poser.pugx.org/iddqdby/tinyapp/downloads)](https://packagist.org/packages/iddqdby/tinyapp)
+[![License](https://poser.pugx.org/iddqdby/tinyapp/license)](https://packagist.org/packages/iddqdby/tinyapp)
+
 ## Description
 
 ### Install the library
