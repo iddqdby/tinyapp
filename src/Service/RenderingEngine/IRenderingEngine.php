@@ -56,6 +56,14 @@ interface IRenderingEngine {
 
 
     /**
+     * Get prefix of template filenames.
+     *
+     * @return string prefix of template filenames
+     */
+    public function getTemplatePrefix();
+
+
+    /**
      * Set postfix of template filenames.
      *
      * May be used to set extension of templates, like ".twig" or ".tpl".
@@ -64,6 +72,14 @@ interface IRenderingEngine {
      * @return IRenderingEngine this
      */
     public function setTemplatePostfix( $postfix );
+
+
+    /**
+     * Get postfix of template filenames.
+     *
+     * @return string postfix of template filenames
+     */
+    public function getTemplatePostfix();
 
 
     /**
@@ -82,5 +98,13 @@ interface IRenderingEngine {
      * @return IRenderingEngine this
      */
     public function removeTemplateDirectories( $dirs );
+
+
+    /**
+     * Get array of directories to search templates in.
+     *
+     * @return array array of directories to search templates in
+     */
+    public function getTemplateDirectories();
 
 }

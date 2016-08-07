@@ -49,7 +49,7 @@ class PHPRenderingEngine extends AbstractRenderingEngine {
 
         $this->error_types = $error_types;
 
-        $this->setTemplatePostfix('.php');
+        $this->setTemplatePostfix( '.php' );
     }
 
 
@@ -73,10 +73,12 @@ class PHPRenderingEngine extends AbstractRenderingEngine {
             return $result;
 
         } catch( Exception $e ) {
+            ob_end_clean();
             restore_error_handler();
             throw new TemplateException(
                     sprintf( 'Unexpected exception while rendering template %s', $template_path ), 500, $e );
         } catch( Throwable $e ) { // for PHP >= 7.0
+            ob_end_clean();
             restore_error_handler();
             throw new TemplateException(
                     sprintf( 'Unexpected exception while rendering template %s', $template_path ), 500, $e );

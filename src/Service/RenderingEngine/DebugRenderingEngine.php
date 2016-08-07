@@ -145,12 +145,32 @@ class DebugRenderingEngine implements IRenderingEngine {
 
 
     /**
+     * This method returns empty string. It is a stub.
+     *
+     * @return string empty string
+     */
+    public function getTemplatePrefix() {
+        return '';
+    }
+
+
+    /**
      * This method does nothing. It is a stub.
      *
      * @return this
      */
     public function setTemplatePostfix( $postfix ) {
         return $this;
+    }
+
+
+    /**
+     * This method returns empty string. It is a stub.
+     *
+     * @return string empty string
+     */
+    public function getTemplatePostfix() {
+        return '';
     }
 
 
@@ -171,6 +191,16 @@ class DebugRenderingEngine implements IRenderingEngine {
      */
     public function removeTemplateDirectories( $dirs ) {
         return $this;
+    }
+
+
+    /**
+     * This method returns empty array. It is a stub.
+     *
+     * @return array empty array
+     */
+    public function getTemplateDirectories() {
+        return [];
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  * The MIT License
  *
@@ -23,7 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace TinyApp\Service\RenderingEngine;
 
 use TinyApp\Service\RenderingEngine\IRenderingEngine;
@@ -36,7 +36,6 @@ use TinyApp\Exception\TemplateException;
  * next one if previous one fails to render a template.
  */
 class MergedRenderingEngine implements IRenderingEngine {
-
 
     /** @var IRenderingEngine[] $engines rendering engines */
     private $engines;
@@ -54,7 +53,7 @@ class MergedRenderingEngine implements IRenderingEngine {
      * Instances of TemplateException can be handled with optional callback.
      * First argument of a callback is an instance of TemplateException thrown,
      * second one is a name of a template, third one is a data, fourth one
-     * is a class name of an engine.
+     * is an instance of engine.
      *
      * @param IRenderingEngine[] $engines rendering engines
      * @param callable $on_exception_callback callback to handle subsequent
@@ -80,11 +79,12 @@ class MergedRenderingEngine implements IRenderingEngine {
 
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      *
      * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::addTemplateDirectories()
      */
-    public function addTemplateDirectories( array $dirs ) {
+    public function addTemplateDirectories( $dirs ) {
         foreach( $this->engines as $engine ) {
             $engine->addTemplateDirectories( $dirs );
         }
@@ -93,11 +93,12 @@ class MergedRenderingEngine implements IRenderingEngine {
 
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      *
      * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::removeTemplateDirectories()
      */
-    public function removeTemplateDirectories( array $dirs ) {
+    public function removeTemplateDirectories( $dirs ) {
         foreach( $this->engines as $engine ) {
             $engine->removeTemplateDirectories( $dirs );
         }
@@ -106,12 +107,12 @@ class MergedRenderingEngine implements IRenderingEngine {
 
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      *
      * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::render()
      */
     public function render( $data, $template ) {
-
         $ex_last = null;
         foreach( $this->engines as $engine ) {
             try {
@@ -131,29 +132,77 @@ class MergedRenderingEngine implements IRenderingEngine {
 
 
     /**
-     * This method does nothing. It is a stub.
+     * Set prefix for all bundled rendering engines.
      *
      * @return this
      */
     public function setTemplatePrefix( $prefix ) {
+        foreach( $this->engines as $engine ) {
+            $engine->setTemplatePrefix( $prefix );
+        }
         return $this;
     }
 
 
     /**
-     * This method does nothing. It is a stub.
+     * Set postfix for all bundled rendering engines.
      *
      * @return this
      */
     public function setTemplatePostfix( $postfix ) {
+        foreach( $this->engines as $engine ) {
+            $engine->setTemplatePostfix( $postfix );
+        }
         return $this;
     }
 
 
     private function callExceptionHandler( TemplateException $ex, $template, $data, IRenderingEngine $engine ) {
         if( $this->on_exception_callback ) {
-            call_user_func( $this->on_exception_callback, $ex, $template, $data, get_class( $engine ) );
+            call_user_func( $this->on_exception_callback, $ex, $template, $data, $engine );
         }
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * Prefix of the very first rendering engine in a bundle will be returned.
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplatePrefix()
+     */
+    public function getTemplatePrefix() {
+        return reset( $this->engines )->getTemplatePrefix();
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * Postfix of the very first rendering engine in a bundle will be returned.
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplatePostfix()
+     */
+    public function getTemplatePostfix() {
+        return reset( $this->engines )->getTemplatePostfix();
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * Merged array of directories of all bundled rendering engines will be returned.
+     *
+     * Array will contain unique values in unspecified order.
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplateDirectories()
+     */
+    public function getTemplateDirectories() {
+        $dirs = [];
+        foreach( $this->engines as $engine ) {
+            $dirs = array_unique( array_merge( $dirs, array_values( $engine->getTemplateDirectories() ) ) );
+        }
+        return $dirs;
     }
 
 }

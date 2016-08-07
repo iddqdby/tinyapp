@@ -94,6 +94,16 @@ abstract class AbstractRenderingEngine implements IRenderingEngine {
 
 
     /**
+     * {@inheritdoc}
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplateDirectories()
+     */
+    public function getTemplateDirectories() {
+        return $this->dirs;
+    }
+
+
+    /**
      * {@inheritDoc}
      *
      * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::setTemplatePrefix()
@@ -105,6 +115,16 @@ abstract class AbstractRenderingEngine implements IRenderingEngine {
 
 
     /**
+     * {@inheritdoc}
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplatePrefix()
+     */
+    public function getTemplatePrefix() {
+        return $this->prefix;
+    }
+
+
+    /**
      * {@inheritDoc}
      *
      * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::setTemplatePostfix()
@@ -112,6 +132,16 @@ abstract class AbstractRenderingEngine implements IRenderingEngine {
     public function setTemplatePostfix( $postfix ) {
         $this->postfix = strval( $postfix );
         return $this;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \TinyApp\Service\RenderingEngine\IRenderingEngine::getTemplatePostfix()
+     */
+    public function getTemplatePostfix() {
+        return $this->postfix;
     }
 
 
@@ -146,12 +176,12 @@ abstract class AbstractRenderingEngine implements IRenderingEngine {
 
 
     /**
-      * Render given template using given data.
-      *
-      * @param mixed $data the data
-      * @param mixed $templatepath the path to the template
-      * @return string rendered template as a string
-      * @throws TemplateException in case of an error
+     * Render given template using given data.
+     *
+     * @param mixed $data the data
+     * @param mixed $templatepath the path to the template
+     * @return string rendered template as a string
+     * @throws TemplateException in case of an error
      */
     protected abstract function doRender( $data, $template_path );
 
