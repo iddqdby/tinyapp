@@ -45,7 +45,11 @@ class AppTest extends PHPUnit_Framework_TestCase {
         // mock rendering engine
 
         $mock_rendering_engine = $this
-            ->getMock( '\\TinyApp\\Service\\RenderingEngine\\IRenderingEngine' );
+            ->getMockBuilder( '\\TinyApp\\Service\\RenderingEngine\\IRenderingEngine' )
+            ->setMethods( [
+                'render'
+            ] )
+            ->getMockForAbstractClass();
 
         $mock_rendering_engine
             ->method( 'render' )
