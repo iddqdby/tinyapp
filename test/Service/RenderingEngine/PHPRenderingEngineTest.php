@@ -68,8 +68,12 @@ class PHPRenderingEngineTest extends \PHPUnit_Framework_TestCase {
 
                 $ex_previous = $ex->getPrevious();
 
-                $this->assertInstanceOf( $expected_exception_previous_class, $ex_previous );
-                $this->assertRegExp( $expected_exception_previous_message_regex, $ex_previous->getMessage() );
+                if( 'error' === $template && preg_match( '/^7\\./', phpversion() ) ) {
+                    $this->assertInstanceOf( '\\TypeError', $ex_previous );
+                } else {
+                    $this->assertInstanceOf( $expected_exception_previous_class, $ex_previous );
+                    $this->assertRegExp( $expected_exception_previous_message_regex, $ex_previous->getMessage() );
+                }
             }
         }
 
