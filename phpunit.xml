@@ -8,9 +8,17 @@
 	<testsuites>
 		<testsuite name="App">
 			<file>./test/AppTest.php</file>
+			<file>./test/CAppTest.php</file>
+		</testsuite>
+		<testsuite name="Controller">
+			<file>./test/Controller/AbstractControllerTest.php</file>
+			<file>./test/Controller/CLIControllerTest.php</file>
 		</testsuite>
 		<testsuite name="Service">
 			<file>./test/Service/ContainerTest.php</file>
+			<file>./test/Service/RenderingEngine/AbstractRenderingEngineTest.php</file>
+			<file>./test/Service/RenderingEngine/PHPRenderingEngineTest.php</file>
+			<file>./test/Service/RenderingEngine/MergedRenderingEngineTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>
