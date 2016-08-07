@@ -33,7 +33,7 @@ use Psr\Log\NullLogger;
 trait LoggerAwareTrait {
 
     /** @var LoggerInterface */
-    private $__logger = null;
+    private $logger = null;
 
 
     /**
@@ -42,7 +42,7 @@ trait LoggerAwareTrait {
      * @param LoggerInterface $logger the logger
      */
     public function setLogger( LoggerInterface $logger ) {
-        $this->__logger = $logger;
+        $this->logger = $logger;
     }
 
 
@@ -53,11 +53,11 @@ trait LoggerAwareTrait {
      */
     public function logger() {
 
-        if( null === $this->__logger ) {
-            $this->__logger = new NullLogger();
+        if( null === $this->logger ) {
+            $this->logger = new NullLogger();
         }
 
-        return $this->__logger;
+        return $this->logger;
     }
 
 }
